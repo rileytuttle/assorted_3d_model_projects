@@ -1,0 +1,3 @@
+[submodule "IV_pole_clamp"]
+	path = IV_pole_clamp
+	url = git@github.com:rileytuttle/IV_pole_clamp.git
