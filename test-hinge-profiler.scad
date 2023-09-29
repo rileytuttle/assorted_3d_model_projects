@@ -3,12 +3,11 @@ include <rosetta-stone/std.scad>
 
 $fn=20;
 
-difference() {
-    translate([0, 0, 3/2])
-    cube([100,10,3], center=true);
-    rotate([90,0,0])
-    translate([0, 3, -10/2])
-        hinge_profile(5, 180, 20, 3, 10, 8);
+diff("remove") {
+    cube([100,10,3], anchor=BOTTOM)
+    tag("remove")
+    position(BOTTOM)
+    hinge_profile(5, 180, 20, 3, 10.01, 8, anchor=BOTTOM);
 }
 
 
@@ -22,4 +21,3 @@ difference() {
 //         position(BACK)
 //         square([0.5, 3], anchor=BACK);
 // }
-
