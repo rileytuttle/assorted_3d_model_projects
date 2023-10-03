@@ -1,5 +1,5 @@
 include <BOSL2/std.scad>
-include <rosetta-stone/std.scad>
+include <rosetta-stone/hinges.scad>
 
 $fn=20;
 
