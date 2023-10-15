@@ -1,0 +1,81 @@
+{
+    "parameterSets": {
+        "test_piece": {
+            "$fn": "50",
+            "angle_per_fin": "8",
+            "arm_circ": "100",
+            "length": "37",
+            "minimum_gap": "0.5",
+            "thickness": "5",
+            "wrist_circ": "75"
+        },
+        "approximate_courtneys_wrist": {
+            "$fn": "50",
+            "angle_per_fin": "8",
+            "arm_circ": "200",
+            "length": "76",
+            "minimum_gap": "0.5",
+            "thickness": "5",
+            "wrist_circ": "150"
+        },
+        "biggest that will fit": {
+            "$fn": "30",
+            "additional_flat_width": "6",
+            "angle_per_fin": "6",
+            "arm_circ": "210",
+            "female1fudge": "-0.113",
+            "female2fudge": "-0.048",
+            "length": "100",
+            "male1fudge": "0.576",
+            "male2fudge": "0.51",
+            "minimum_gap": "0.2",
+            "number_of_fins": "70",
+            "thickness": "4",
+            "wrist_circ": "160"
+        },
+        "design default values": {
+            "$fn": "30",
+            "additional_flat_width": "2",
+            "angle_per_fin": "8",
+            "arm_circ": "200",
+            "dovetail_height": "5",
+            "dovetail_width": "9",
+            "length": "100",
+            "minimum_gap": "0.2",
+            "n_dovetails_per_side": "3",
+            "number_of_fins": "70",
+            "thickness": "4",
+            "wrist_circ": "150"
+        },
+        "biggest that can fit": {
+            "$fn": "30",
+            "additional_flat_width": "2",
+            "angle_per_fin": "8",
+            "arm_circ": "200",
+            "dovetail_height": "5",
+            "dovetail_width": "9",
+            "length": "100",
+            "minimum_gap": "0.2",
+            "n_dovetails_per_side": "3",
+            "number_of_fins": "70",
+            "thickness": "4",
+            "wrist_circ": "150"
+        },
+        "current": {
+            "$fn": "30",
+            "additional_flat_width": "2",
+            "angle_per_fin": "8",
+            "arm_circ": "200",
+            "dovetail_height": "5",
+            "dovetail_width": "9",
+            "length": "100",
+            "minimum_gap": "0.2",
+            "n_dovetails_per_side": "3",
+            "number_of_fins": "70",
+            "thickness": "4",
+            "wrist_circ": "150"
+        }
+    },
+    "parameterSets": "",
+    "fileFormatVersion": "1"
+}
