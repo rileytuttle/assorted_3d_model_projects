@@ -23,7 +23,8 @@ echo(str("radius = ", big_circle_radius));
 
 angle_per_fin=8;
 number_of_fins=50;
-echo(str("degrees of rotation", number_of_fins * angle_per_fin));
+omitted_hinge_list = [30, 31, 32, 37, 38, 39];
+echo(str("degrees of rotation", (number_of_fins-len(omitted_hinge_list)) * angle_per_fin));
 height_of_cut = thickness-0.4;
 minimum_gap = 0.5;
 top_length_of_fin = 2*tan(angle_per_fin/2) * height_of_cut + minimum_gap;
@@ -37,6 +38,7 @@ additional_arc_angle = (additional_flat_width * 360) / (2 * PI * small_circle_ra
 dovetail_width = 10;
 dovetail_height = 8;
 n_dovetails_per_side = 2;
+
 
 module screen() {
     h=0.2;
@@ -65,15 +67,16 @@ module add_female_dove_tails() {
 }
 
 module add_male_dove_tails() {
+    chamf = 1.5;
     rotate([0, 0, -ang2/2-additional_arc_angle])
     translate([0, -(big_circle_radius+small_circle_radius)/2- length/(n_dovetails_per_side*2*2), 1.5])
     ycopies(spacing=length/n_dovetails_per_side, n=n_dovetails_per_side)
-    dovetail("male", slide=2.5, width=dovetail_width, height=dovetail_height, chamfer=1, anchor=BACK+BOTTOM, orient=LEFT, spin=90);
+    dovetail("male", slide=2.5, width=dovetail_width, height=dovetail_height, chamfer=chamf, anchor=BACK+BOTTOM, orient=LEFT, spin=90);
 
     rotate([0, 0, ang2/2+additional_arc_angle])
     translate([0, -(big_circle_radius+small_circle_radius)/2 + length/(n_dovetails_per_side*2*2), 1.5])
     ycopies(spacing = length/n_dovetails_per_side, n=n_dovetails_per_side)
-    dovetail("male", slide=2.5, width=dovetail_width, height=dovetail_height, chamfer=1, anchor=BACK+BOTTOM, orient=RIGHT, spin=-90);
+    dovetail("male", slide=2.5, width=dovetail_width, height=dovetail_height, chamfer=chamf, anchor=BACK+BOTTOM, orient=RIGHT, spin=-90);
 }
 
 module wrist_band_plain() {
@@ -86,15 +89,19 @@ module wrist_band_plain() {
         }
         tag("remove") {
             translate([0, 0, thickness+0.001])
-            arc_copies(n=number_of_fins, r=(small_circle_radius+big_circle_radius)/2, sa=-90-ang2/2+0.75, ea=-90+ang2/2-0.75)
-            rotate([0, 0, 90])
-            hinge_fin(
-                angle_per_fin = angle_per_fin,
-                cut_depth = length+1,
-                height_of_cut = height_of_cut,
-                top_length_of_fin = top_length_of_fin,
-                minimum_gap=minimum_gap,
-                anchor=TOP);
+            arc_copies(n=number_of_fins, r=(small_circle_radius+big_circle_radius)/2, sa=-90-ang2/2+0.75, ea=-90+ang2/2-0.75) {
+                // echo(str("search ", search($idx, [45, 50])));
+                if (len(search($idx, omitted_hinge_list)) == 0) {
+                    rotate([0, 0, 90])
+                    hinge_fin(
+                        angle_per_fin = angle_per_fin,
+                        cut_depth = length+1,
+                        height_of_cut = height_of_cut,
+                        top_length_of_fin = top_length_of_fin,
+                        minimum_gap=minimum_gap,
+                        anchor=TOP);
+                }
+            }
             add_female_dove_tails();
         }
         add_male_dove_tails();
