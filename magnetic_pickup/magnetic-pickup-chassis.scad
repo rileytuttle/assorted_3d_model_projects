@@ -1,4 +1,5 @@
 include <BOSL2/std.scad>
+include <BOSL2/threading.scad>
 
 $fn=30;
 
@@ -70,8 +71,34 @@ module top(spin=0, orient=UP, anchor=CENTER) {
     }
 }
 
-bottom();
+module disengager(spin=0, orient=UP, anchor=CENTER) {
+    inner_diam = chassis_outer_diam+1;
+    outer_diam = inner_diam + 1*2; // adding wall thickness
+    attachable(spin=spin, orient=orient, anchor=anchor) {
+        diff() {
+            cyl(d=outer_diam, l=chassis_bottom_thickness) {
+                position(TOP)
+                tube(id=inner_diam, od=inner_diam+1*2, l=40, anchor=BOTTOM);
+                position(TOP)
+                cyl(d=17, l=30, anchor=BOTTOM, chamfer2=1)
+                    tag("remove")
+                    position(BOTTOM)
+                    right(1)
+                    threaded_rod(d=8.25, pitch=1.25, l=30.1, anchor=BOTTOM+RIGHT, internal=true);
+            }
+        }
+        children();
+    }
+}
+
+// color_this("blue")cover_piece()
+//     up(70)
+//     bottom();
 // position("top-bottom-joint")
 // top(anchor=BOTTOM);
 
 // cut_tube_base(19, 7, 3);
+
+
+// import("backupstls/magnetic-pick-disengager.stl", convexity=3);
+disengager();
