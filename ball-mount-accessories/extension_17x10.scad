@@ -4,14 +4,19 @@ include <rosetta-stone/ball-mount-bits.scad>
 
 $fn=50;
 
-right_half()
-diff() {
-    left(1)
-    extension(17, 10, anchor=LEFT) {
-        position(CENTER)
-        screw_hole("M4", l=30, thread=true, head="socket", orient=RIGHT, anchor=CENTER)
-        tag("remove")
-        position(TOP) cyl(d=7, l=10, anchor=BOTTOM);
+module extension_17mm_10mm()
+{
+    right_half()
+    diff() {
+        left(1)
+        extension(17.5, 10, anchor=LEFT, teardrop=true, teardrop_ang=50) {
+            position(CENTER)
+            screw_hole("M4", l=30, thread=true, head="socket", orient=RIGHT, anchor=CENTER)
+            tag("remove")
+            position(TOP) cyl(d=7, l=10, anchor=BOTTOM);
+        }
+        // #cyl(d=7, l=2, orient=RIGHT, anchor=TOP);
     }
-    // #cyl(d=7, l=2, orient=RIGHT, anchor=TOP);
 }
+
+extension_17mm_10mm();
