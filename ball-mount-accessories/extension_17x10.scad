@@ -9,9 +9,9 @@ module extension_17mm_10mm()
     right_half()
     diff() {
         left(1)
-        extension(17.5, 10, anchor=LEFT, teardrop=true, teardrop_ang=50) {
+        extension(16.5, 25, anchor=LEFT) {
             position(CENTER)
-            screw_hole("M4", l=30, thread=true, head="socket", orient=RIGHT, anchor=CENTER)
+            screw_hole("M4", l=27, thread=true, head="socket", orient=RIGHT, anchor=CENTER)
             tag("remove")
             position(TOP) cyl(d=7, l=10, anchor=BOTTOM);
         }
