@@ -10,7 +10,7 @@ layer_height = 0.2;
 module claw_top()
 {
     diff() {
-        ball_with_circular_base(26, [32, 6], [12, 12], -5) {
+        ball_with_circular_base(1 * INCH-0.5, [32, 6], [12, 12], -5) {
             push_down = 11;
             down(push_down)
             position(TOP)

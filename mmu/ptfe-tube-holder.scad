@@ -23,6 +23,7 @@ module holder() {
 module tube_hole(overall_length, holding_length, spin=0, orient=UP, anchor=CENTER) {
     ptfe_outer=4;
     filament_outer=2.5;
+    echo(str("ptfe holding section diam", ptfe_outer+0.15));
     attachable(spin=spin, anchor=anchor, orient=orient, size=[ptfe_outer+1, ptfe_outer+1, overall_length]) {
         // filament hole
         cyl(d=filament_outer, l=overall_length)
@@ -85,9 +86,19 @@ module filament_redirector_bottom() {
     }
 }
 
+module tube_collar()
+{
+    diff() {
+        cyl(d=10, l=5)
+        tag("remove") cyl(d=4.15, l=5, chamfer2=-.5);
+    }
+}
+
 // filament_redirector_top() {
 // }
 // left(110)
 // filament_redirector_bottom();
 
-holder();
+// holder();
+tube_collar();
+// #tube_hole(5, 2);
