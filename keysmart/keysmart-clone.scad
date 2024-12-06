@@ -6,9 +6,8 @@ include <rosetta-stone/std.scad>
 $fn=50;
 plate_thickness = 3;
 hole_dist = 3 * INCH;
-module body_no_hole(mag_holes=false) {
+module body_no_hole(mag_holes=false, mag_type="square", thickness=3) {
     end_r = 8;
-    thickness = plate_thickness;
     path = turtle([
         "move", hole_dist/2,
         "arcright", end_r, 180,
@@ -24,12 +23,19 @@ module body_no_hole(mag_holes=false) {
         diff("mag-remove") {
             back(end_r)
             down(thickness/2)
-            offset_sweep(path, l=thickness, top=os_teardrop(r=2));
-            if (mag_holes) {
+            offset_sweep(path, l=thickness, top=os_teardrop(r=1));
+            if (mag_holes && mag_type == "circle") {
                 xcopies(n=2, l=50) {
                     position(TOP)
                     force_tag("mag-remove")
                     magnet_cutout_cyl(6.1, 2.1, plate_thickness, anchor=TOP, layerheight=0.1);
+                }
+            } else if (mag_holes && mag_type == "square") {
+                xcopies(n=2, l=50) {
+                    position(TOP)
+                    force_tag("mag-remove")
+                    cuboid([18, 2, 0.2], anchor=TOP)
+                    position(BOTTOM) cuboid([20, 5, 2], anchor=TOP);
                 }
             }
         }
@@ -37,9 +43,9 @@ module body_no_hole(mag_holes=false) {
     }
 }
 
-module threaded_side(mag_holes=false) {
+module threaded_side(mag_holes=false, thickness=3) {
     diff() {
-        body_no_hole(mag_holes=mag_holes) {
+        body_no_hole(mag_holes=mag_holes, thickness=thickness) {
             position("left-hole") {
                 down(plate_thickness)
                 left(2.5)
@@ -68,9 +74,9 @@ module threaded_side(mag_holes=false) {
     }
 }
 
-module non_threaded_side() {
+module non_threaded_side(thickness=3) {
     diff() {
-        body_no_hole() {
+        body_no_hole(thickness=thickness) {
             tag("remove") {
                 for (pos = ["left-hole", "right-hole"]) {
                     position(pos)
@@ -112,17 +118,15 @@ module key_spacer(anchor=CENTER) {
 //     attachable(size=[diam1, diam1, height], anchor=anchor) {
 // }
 
-// up(6)
-// xrot(180)
-// threaded_side(mag_holes=true);
+threaded_side(mag_holes=true, thickness=plate_thickness);
     // position("left-hole")
 // down(12)
 // left(hole_dist/2)
 // blade_spacer(anchor=BOTTOM);
 // down(12)
 // right(hole_dist/2)
-key_spacer(anchor=BOTTOM);
+// key_spacer(anchor=BOTTOM);
 // down(6)
-// non_threaded_side();
+// non_threaded_side(thickness=plate_thickness);
 
 // text3d("キ", 1, font="noto");

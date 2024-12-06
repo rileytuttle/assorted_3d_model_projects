@@ -15,6 +15,7 @@ spool_outside_to_outside = 65;
 inner_threaded = true;
 thread_d = 45;
 thread_pitch = 1.1;
+thread_starts = 1;
 $slop = 0.1;
 screw_profile = "M3";
 // if it is possible to attach something like a drill to the adapter so we can not spin it manually
@@ -34,9 +35,9 @@ module spool_to_pvc(inner_thread = true, attachable=false) {
                 if (inner_thread)
                 {
                     tag("remove")
-                    threaded_rod(d=thread_d, l=3, pitch=thread_pitch, internal=true, anchor=TOP);
+                    threaded_rod(d=thread_d, l=3, pitch=thread_pitch, internal=true, anchor=TOP, starts=thread_starts);
                 } else {
-                    threaded_rod(d=thread_d, l=3, pitch=thread_pitch, anchor=BOTTOM);
+                    threaded_rod(d=thread_d, l=3, pitch=thread_pitch, anchor=BOTTOM, starts=thread_starts);
                 }
             }
             chamfer_amount = 2;

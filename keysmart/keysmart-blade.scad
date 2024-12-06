@@ -283,8 +283,9 @@ module main_body(full_thickness, solid_thickness, length, height, top_part_heigh
         down(full_thickness/2)
         left(length/2)
         fwd(height/2)
-        offset_sweep(path1, height = full_thickness - top_part_height, bottom=os_chamfer(width=small_chamfer_width), $fn=50) {
-            up(full_thickness-top_part_height + top_part_height/2)
+        offset_sweep(path1, height = full_thickness - top_part_height, bottom=os_chamfer(width=small_chamfer_width), $fn=50)
+        {
+            up(solid_thickness)
             rounded_prism(path1, apply(translate([0, top_chamfer, 0]), path2), height=top_part_height);
         }
         children();
@@ -305,10 +306,11 @@ module modded_other_knife() {
     blade_channel_y_offset = 2;
     clip_hole = true;
     keysmart_hole = false;
-    magnet = true;
+    magnet = "circle";
 
     diff() {
-        main_body(full_thickness, solid_thickness, full_length, full_height, top_part_height) {
+        main_body(full_thickness, solid_thickness, full_length, full_height, top_part_height)
+        {
             // make springy guy thinner
             if (true) {
                 position(BACK+LEFT+BOTTOM)
@@ -333,7 +335,7 @@ module modded_other_knife() {
                     position("notch")
                     offset_sweep(slot_path, height=2.5, anchor=TOP, top=os_circle(r=1));
 
-                if (magnet) {
+                if (magnet == "circle") {
                     // magnet cutout
                     position("bottomright")
                     down(0.21) // multiple of 0.2 layer height

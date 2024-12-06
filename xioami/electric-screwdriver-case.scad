@@ -3,6 +3,7 @@ include <rosetta-stone/std.scad>
 
 $fn=50;
 
+layer_height = 0.2;
 case_thickness=21;
 case_height=186.5;
 case_width=71;
@@ -27,7 +28,7 @@ module bit_remove_with_circle_mags(anchor=CENTER, spin=0, orient=UP, l=50)
             position(BACK+BOTTOM)
             xcopies(n=6, l=30) {
                 hexagon3d(minor_width=4, height=l/2, anchor=BOTTOM)
-                up(8) position(BOTTOM) back(4/2) #magnet_cutout_cyl(5.1, 2, case_thickness, n_layers_to_surface=1, orient=FRONT, anchor=TOP); 
+                up(8) position(BOTTOM) back(4/2) #magnet_cutout_cyl(5.1, 2, case_thickness, n_layers_to_surface=1, orient=FRONT, anchor=TOP, layer_height=layer_height); 
             }
         }
         children();
@@ -51,7 +52,7 @@ module bit_remove_with_rect_mags(anchor=CENTER, spin=0, orient=UP, l=50)
                 position(BACK+BOTTOM)
                 up(8)
                 back(4/2)
-                cuboid([30.1, 2, 0.2], anchor=TOP, orient=FRONT)
+                cuboid([30.1, 2, layer_height], anchor=TOP, orient=FRONT)
                 position(BOTTOM) cuboid([30.1, 5.1, 2.1], anchor=TOP, rounding=1, edges=[LEFT+FRONT, LEFT+BACK, RIGHT+FRONT, RIGHT+BACK])
                 for (loc=[[LEFT, RIGHT], [RIGHT, LEFT]])
                     position(loc[0]) cuboid([100, 5.1, 2.1], rounding=1, edges=[loc[1]+FRONT, loc[1]+BACK], anchor=loc[1]);
@@ -113,9 +114,11 @@ module case_insert(anchor=CENTER)
                 down(spacing) position(BOTTOM) bit_remove_with_rect_mags(l=33, anchor=TOP)
                 down(spacing) position(BOTTOM) bit_remove_with_rect_mags(l=33, anchor=TOP)
                 down(spacing) position(BOTTOM) bit_remove_with_rect_mags(l=33, anchor=TOP)
-                for (spec = [[-25/2, (case_thickness-10.5)/2], [-25/6, (case_thickness-10.5)/2], [25/6, case_thickness], [25/2, case_thickness]])
-                {
-                    translate([spec[0], 0, -6]) position(BOTTOM+FRONT) force_tag("remove") magnet_cutout_cyl(6.1, 2, spec[1], anchor=TOP, orient=FRONT);
+                fwd(0.01) down(6) left(2) position(BOTTOM+FRONT)
+                for (loc = [[-10, LEFT, RIGHT],[10, RIGHT, LEFT]]) {
+                    right(loc[0]) cuboid([10, layer_height+0.01, 2], anchor=FRONT)
+                    fwd(0.01) position(BACK) cuboid([20, 2+0.01, 5], anchor=FRONT, rounding=1, edges=[loc[1]+BOTTOM, loc[1]+TOP])
+                    position(loc[1]) cuboid([100, 1.9, 5], anchor=loc[2]);
                 }
             }
             // latch thing
@@ -129,6 +132,9 @@ module case_insert(anchor=CENTER)
 
 // bottom_half(200)
 // down(50)
+// top_half()
+// down(7)
+// case_insert(anchor=BOTTOM);
 case_insert(anchor=CENTER);
 
 // case_insert_with_teardrop();

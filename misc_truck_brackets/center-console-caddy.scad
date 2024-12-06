@@ -173,7 +173,7 @@ module center_console_caddy_bottom()
 // top_half(300)
 // up(11)
 // fwd(10)
-// handle(spin=90);
+handle(spin=90);
 
 // left(x_mm/2)
 // down(10)

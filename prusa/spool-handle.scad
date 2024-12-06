@@ -2,6 +2,7 @@ include <BOSL2/std.scad>
 
 $fn=50;
 shift = 3.7;
+length = 80; // [80, 91.5]
 
 module spool_handle(l=91.5, anchor=BOTTOM, spin=0, orient=UP)
 {
@@ -19,9 +20,16 @@ module spool_handle(l=91.5, anchor=BOTTOM, spin=0, orient=UP)
         cyl(d=bottom_disk_d, l=bottom_disk_h, anchor=BOTTOM)
         position(TOP) cyl(d=main_d, l=l, anchor=BOTTOM, rounding2=1)
         position(TOP) cyl(d=step1_d, l=step1_h, anchor=BOTTOM, rounding2=1)
-        position(TOP) cyl(d=step2_d, l=step2_h, anchor=BOTTOM, rounding1=-1, rounding2=0.5)
-        zrot(-ang/2)
-        position(TOP) zrot_copies(n=2) pie_slice(ang=ang, l=2, r=9.8, anchor=TOP);
+        // position(TOP) cyl(d=step2_d, l=step2_h, anchor=BOTTOM, rounding1=-1, rounding2=0.5);
+        
+        for (loc = [[1, 0],[-1, 180]])
+        {
+            right(loc[0])
+            zrot(loc[1])
+            zrot(-ang/2)
+            position(TOP) pie_slice(ang=ang, l=step2_h, r=(step2_d/2)-1, anchor=BOTTOM)
+            position(TOP) pie_slice(ang=ang, l=2, r=9.8-1, anchor=TOP);
+        }
         children();
     }
 }
@@ -43,7 +51,7 @@ module turn_tab(shift=4.4)
 top_half(300)
 up(shift)
 {
-    spool_handle(l=80, orient=RIGHT, spin=90) {
+    spool_handle(l=length, orient=RIGHT, spin=90) {
         position(BOTTOM)
         turn_tab(shift);
     }
