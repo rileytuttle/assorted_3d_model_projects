@@ -71,6 +71,23 @@ module worklight_diffuser_quick_mag()
     }
 }
 
+module slide_mask()
+{
+    full_thickness = 4;
+    diff() {
+        cuboid([140, 100, full_thickness], rounding=7, except=[TOP, BOTTOM])
+        {
+           slide_depth = 1.5;
+           tag("remove") xcopies(n=2, l=110 + 12) ycopies(n=2, l=75+6) cyl(d=16, l=10);
+           tag("remove") position(TOP) down(slide_depth) cuboid([50, 50, 5], rounding=2, except=[TOP, BOTTOM], anchor=BOTTOM) 
+           position(BOTTOM+BACK+RIGHT) slot(d=20, h=slide_depth, spread=20, anchor=BOTTOM, spin=45);
+           tag("remove") cuboid([40, 40, 5]);
+           tag("remove") position(BOTTOM) xcopies(n=(140 / 4)-10, spacing=4) cuboid([2, 100, 0.5], anchor=BOTTOM);
+        }
+    }
+    
+}
+
 // magnet_jig();
 
 // bottom_half(200)
@@ -81,4 +98,6 @@ module worklight_diffuser_quick_mag()
 
 // worklight_diffuser_rim_mount();
 // up(0.7)
-worklight_diffuser_quick_mag();
+// worklight_diffuser_quick_mag();
+// #up(10)
+slide_mask();
