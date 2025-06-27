@@ -1,6 +1,17 @@
-include <BOSL2/std.scad>
+include <../BOSL2/std.scad>
+include <../BOSL2/threading.scad>
 
 $fn=50;
+
+bearing_od=37.1;
+bearing_l=7;
+chamfer_amount = 2;
+overall_thickness = bearing_l+chamfer_amount*2;
+wall_thickness = 3;
+pitch=4;
+thread_d = 70;
+thread_starts=4;
+internal_threaded=true;
 
 outer_diam = 150;
 hole_diam = 25;
@@ -80,4 +91,34 @@ module redirecter()
         }
     }
 }
-redirecter();
+
+module redirector_v2(internal_thread=false)
+{
+    diff() {
+        cyl(d=outer_diam, l=wall_thickness) {
+            thread_l = overall_thickness-wall_thickness;
+            if (internal_thread)
+            {
+                position(BOTTOM) cyl(d=100, l=thread_l, anchor=BOTTOM)
+                tag("remove") threaded_rod(starts=thread_starts, d=thread_d, l=thread_l, pitch=pitch, internal=true, $slop=0.2);
+                position(BOTTOM) tag("remove") cyl(d=bearing_od, l=overall_thickness, chamfer=-chamfer_amount, anchor=BOTTOM);
+            }
+            else
+            {
+                position(TOP) threaded_rod(starts=thread_starts, d=thread_d, l=thread_l, pitch=pitch, internal=false, anchor=BOTTOM);
+                position(BOTTOM) tag("remove") cyl(d=bearing_od, l=overall_thickness, chamfer=-chamfer_amount, anchor=BOTTOM);
+            }
+            // #position(BOTTOM) up(2) cyl(d=10, l=7, anchor=BOTTOM);
+            // cyl(d=outer_diam, l=bearing_l+chamfer_amount) {
+        // tag("remove") cyl(d=bearing_od, l=bearing_l+chamfer_amount, chamfer=-chamfer_amount);
+        // position(BOTTOM) up(3) threaded_rod(d=70, l=6, pitch=1.1, internal=false, anchor=BOTTOM);
+        // position(BOTTOM) up(3) tag("remove") tube(id=80, od=200, l=10, anchor=BOTTOM);
+        }
+    }
+}
+// redirecter();
+// up(30)
+redirector_v2(internal_threaded);
+// up(20) 
+// xrot(180)
+// redirector_v2(false);

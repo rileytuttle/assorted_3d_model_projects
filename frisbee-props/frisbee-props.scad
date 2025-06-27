@@ -6,12 +6,13 @@ $fn=50;
 first_layer_thickness = 0.2;
 other_layer_thickness = 0.45;
 overall_thickness = 5;
-frisbee_diam = 12;
-offense_diam = 20;
+frisbee_diam = 11;
+offense_diam = 12;
 defense_size = [20, 7];
-cyl_mag_d = 6;
+cyl_mag_d = 6.1;
 cyl_mag_l = 2;
 cyl_window_thickness = 2;
+rect_mag_size = [10, 5, 2];
 
 module cyl_mag(d, first_layer_thickness, other_layer_thickness, cyl_mag_l, height, window_thickness) {
     attachable(size=[d, d, overall_thickness])
@@ -40,23 +41,34 @@ module frisbee()
 
 module offense()
 {
+    mag_pocket_layers = ceil(cyl_mag_l/other_layer_thickness);
+    mag_pocket_thickness = mag_pocket_layers * other_layer_thickness;
+    echo(str("mag pocket layer count is ", mag_pocket_layers, " for a total ", mag_pocket_thickness, " thickness"));
     diff() {
         cyl(d=offense_diam, l=overall_thickness)
-        force_tag("remove") cyl_mag(cyl_mag_d, first_layer_thickness, other_layer_thickness, cyl_mag_l, overall_thickness, cyl_window_thickness);
+        force_tag("remove") cyl_mag(cyl_mag_d, first_layer_thickness, other_layer_thickness, mag_pocket_thickness, overall_thickness, cyl_window_thickness);
     }
 }
 
 module defense()
 {
+    mag_pocket_layers = ceil(rect_mag_size[2]/other_layer_thickness);
+    mag_pocket_thickness = mag_pocket_layers * other_layer_thickness;
+    echo(str("mag pocket layer count is ", mag_pocket_layers, " for a total ", mag_pocket_thickness, " thickness"));
     diff() {
-        cuboid(concat(defense_size, overall_thickness))
-        force_tag("remove") cyl_mag(cyl_mag_d, first_layer_thickness, other_layer_thickness, cyl_mag_l, overall_thickness, cyl_window_thickness);
+        cuboid(concat(defense_size, overall_thickness)) {
+        up(first_layer_thickness)
+        position(BOTTOM)
+        force_tag("remove") cuboid([rect_mag_size[0], rect_mag_size[1], mag_pocket_thickness], anchor=BOTTOM)
+            position(TOP) up(other_layer_thickness) cyl(d=2, l=5, anchor=BOTTOM);
+        tag("remove") position(BOTTOM) cyl(d=2, l=first_layer_thickness, anchor=BOTTOM);
+        }
     }
 }
 
 // cyl_mag(cyl_mag_d, first_layer_thickness, other_layer_thickness, cyl_mag_l, overall_thickness, cyl_window_thickness);
 // frisbee();
 // right(20)
-offense();
+// offense();
 // right(45)
-// defense();
+defense();
