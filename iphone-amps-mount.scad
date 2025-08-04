@@ -1,6 +1,6 @@
-include <BOSL2/std.scad>
-include <BOSL2/screws.scad>
-include <BOSL2/rounding.scad>
+include <openscad-library-manager/BOSL2/std.scad>
+include <openscad-library-manager/BOSL2/screws.scad>
+include <openscad-library-manager/BOSL2/rounding.scad>
 
 $fn=50; 
 diam=50;

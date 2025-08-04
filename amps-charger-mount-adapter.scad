@@ -1,5 +1,5 @@
-include <rosetta-stone/boards.scad>
-include <BOSL2/screws.scad>
+include <openscad-library-manager/rosetta-stone/boards.scad>
+include <openscad-library-manager/BOSL2/screws.scad>
 
 amps_hole_spacing = [30,38];
 board_buffer = 5;
@@ -60,13 +60,15 @@ module amps_to_threaded_plate()
 
 module amps_to_threaded_plate2()
 {
+    middle_screw_type = "M5-0.8";
+    mount_screw_type = "6-32";
     diff() {
         cuboid(board_size, rounding=5, edges=[LEFT+FRONT, LEFT+BACK, RIGHT+FRONT, RIGHT+BACK]) {
             position(TOP)
             cyl(l=5, d=24, anchor=BOTTOM, rounding1=-2, rounding2=2);
-            tag("remove") position(BOTTOM) screw_hole("M5-0.8", length=20, thread=false, anchor=BOTTOM)
+            tag("remove") position(BOTTOM) screw_hole(middle_screw_type, length=20, thread=false, anchor=BOTTOM)
                 up(5) position(BOTTOM) nut_trap_inline(5, anchor=TOP);
-            position(TOP) grid_copies(n=2, size=amps_hole_spacing) screw_hole("M4", l=board_size[2], anchor=TOP, head="button");
+            position(TOP) grid_copies(n=2, size=amps_hole_spacing) screw_hole(mount_screw_type, l=board_size[2], anchor=TOP, head="button");
         }
     }
 }

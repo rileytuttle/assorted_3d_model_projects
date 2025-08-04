@@ -1,9 +1,9 @@
 // this is for this particular qi magsafe charger https://www.amazon.com/dp/B0D97Z9QRW?ref=ppx_yo2ov_dt_b_fed_asin_title&th=1
 
-include <BOSL2/std.scad>
-include <rosetta-stone/ball-mount-bits.scad>
-include <BOSL2/screws.scad>
-include <rosetta-stone/std.scad>
+include <../openscad-library-manager/BOSL2/std.scad>
+include <../openscad-library-manager/ball-mount/ball-mount-bits.scad>
+include <../openscad-library-manager/BOSL2/screws.scad>
+include <../openscad-library-manager/rosetta-stone/std.scad>
 
 $fn=50;
 
@@ -104,7 +104,7 @@ module amps_adapter_plate(with_see_through_holes=false, anchor=CENTER, orient=UP
 // fwd(side_screw_r)
 // magsafe_to_ball_mount(ball_d);
 // left_half()
-right_half()
+// right_half()
 amps_adapter_plate(with_see_through_holes=true);
 
 // zrot_partial_tubes(10, 53, 57, 10, 10);
