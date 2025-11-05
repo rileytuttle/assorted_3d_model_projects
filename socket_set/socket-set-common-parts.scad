@@ -1,4 +1,4 @@
-include <BOSL2/std.scad>
+include <../openscad-library-manager/BOSL2/std.scad>
 
 $fn=50;
 

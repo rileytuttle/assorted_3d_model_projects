@@ -1,7 +1,10 @@
-include <BOSL2/std.scad>
+include <../openscad-library-manager/BOSL2/std.scad>
 include <socket-set-common-parts.scad>
+include <../openscad-library-manager/BOSL2/screws.scad>
 
 $fn=50;
+
+visualize=false;
 
 quarter_inch_clip_path = turtle([
     "xmove", 6.12702,
@@ -105,7 +108,7 @@ module socket_set_holder(
                 fwd(holder_base_size[2]/2)
                 down(clip_info[2])
                 clip(clip_info[0], clip_info[1], orient=FRONT);
-                if (visualize) fwd(20) tag("keep") #cyl(d=head_diam, l=10, orient=BACK);
+                if (visualize) fwd(20) tag("keep") cyl(d=head_diam, l=10, orient=BACK);
             }
             position(FRONT) {
             xcopies(n=2, l=extension_clip_info[2][0]) {
@@ -113,7 +116,7 @@ module socket_set_holder(
                 up(holder_base_size[2]/2)
                 clip(extension_clip_info[0], extension_clip_info[1]) {
                     if (visualize)
-                    #up(6) cyl(d=13, l=200, orient=BACK);
+                    up(6) cyl(d=13, l=200, orient=BACK);
                 }
                 position(TOP)
                 cuboid(extension_clip_info[3], anchor=FRONT+BOTTOM, rounding=extension_clip_info[4], edges=[TOP+LEFT, TOP+RIGHT]) {
@@ -124,7 +127,37 @@ module socket_set_holder(
                 }
             }
                 if (visualize)
-                up(12) #cyl(d=16, l=200, orient=BACK, anchor=BOTTOM);
+                up(12) cyl(d=16, l=200, orient=BACK, anchor=BOTTOM);
+            }
+        }
+    }
+}
+
+module sockets_holder(holder_base_size)
+{
+    holder_size = [holder_base_size[0], holder_base_size[1]+back_wall_thickness, holder_base_size[2]];
+    diff() {
+        cuboid(holder_size) {
+            tag("remove") {
+                locs = [
+                    [TOP+LEFT, 2.5, TOP+LEFT],
+                    [BOTTOM+LEFT, 2.5, BOTTOM+LEFT],
+                    [TOP+RIGHT, -2.5, TOP+RIGHT],
+                    [BOTTOM+RIGHT, -2.5, BOTTOM+RIGHT]];
+                for(loc = locs)
+                {
+                    position(loc[0]+FRONT) translate([loc[1], 0, 0]) fwd(0.1) cube([3, holder_base_size[1]+0.1, 3.1], anchor=FRONT+loc[2]);
+                }
+                for(loc = [[LEFT, 1], [RIGHT, -1]])
+                {
+                    position(loc[0]+FRONT)
+                    back(3)
+                    translate([(2.5+3/2) * loc[1], 0, 0]) {
+                    down(3.1) position(TOP) screw_hole("M2", l=5, head="socket", anchor="shaft_top", counterbore=3.1);
+                    position(BOTTOM) down(1) nut_trap_inline(3.1+1, "M2", anchor=BOTTOM, spin=0);
+                    }
+                    // #teardrop(d=2.5, l=holder_base_size[2]+1, orient=BACK);
+                }
             }
         }
     }
@@ -132,6 +165,9 @@ module socket_set_holder(
 
 // clip(clip_path, [16, 8, 12]);
 
-socket_set_holder(back_wall_thickness, holder_base_size, bit_width, head_diam, quarter_inch_clip_info, quarter_inch_extension_clip_info);
-right(100)
-socket_set_holder(back_wall_thickness, [70, 200, 12], 10, 30, three_8ths_clip_info, three_8ths_extension_clip_info, visualize=true);
+// socket_set_holder(back_wall_thickness, holder_base_size, bit_width, head_diam, quarter_inch_clip_info, quarter_inch_extension_clip_info, visualize);
+// right(100)
+// socket_set_holder(back_wall_thickness, [70, 200, 12], 10, 30, three_8ths_clip_info, three_8ths_extension_clip_info, visualize);
+// right(200)
+
+sockets_holder([20, 150, 8]);
