@@ -17,7 +17,7 @@ module back()
         // position(TOP) down(1.15) cuboid([hole_diam+0.2, hole_diam+0.2, 0.5], anchor=BOTTOM)
         //   position(TOP) cyl(d=hole_diam-0.2, l=10, anchor=BOTTOM);
         // first cyl is the resting spot.
-        #position(TOP) down(1.25) cyl(d=hole_diam, l=0.6, anchor=BOTTOM)
+        position(TOP) down(1.25) cyl(d=hole_diam, l=0.6, anchor=BOTTOM)
           // this is the cube for the toothpick channel
           cuboid([5, hole_diam, 0.6], anchor=RIGHT) {
             // this is the insertion hole

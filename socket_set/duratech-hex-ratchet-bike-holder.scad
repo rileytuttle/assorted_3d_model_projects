@@ -21,7 +21,7 @@ bit_holder = [10, 55, 15];
 needle_diam_skinny = 2.1;
 needle_diam_thick = 8;
 needle_length=30;
-ratchet_hole_diam = 12.3;
+ratchet_hole_diam = 12.4;
 hex_bit_diam = 7.1;
 extension_thick_diam = 10.2;
 key_shaft_size = [2.9, 23, 7];
@@ -30,6 +30,18 @@ schrader_diam = 7.7;
 braze_on_dist = 2.5 * INCH;
 shift_key_amount = 19;
 bit_dist = 15;
+
+
+module top() {
+  edge_thickness = 2.5;
+  diff() {
+    cuboid([70+2*edge_thickness, 33+edge_thickness*2, 114+edge_thickness], rounding=3, except=[FRONT, BACK], orient=DOWN, teardrop=true) {
+      tag("remove") position(BACK+TOP+LEFT) right(edge_thickness) fwd(edge_thickness) down(edge_thickness) cuboid([30, 33, 120], anchor=BACK+TOP+LEFT);
+      tag("remove") position(BACK+TOP+RIGHT) left(edge_thickness) fwd(edge_thickness) down(edge_thickness) cuboid([70, 20, 120], anchor=BACK+TOP+RIGHT);
+      tag("remove") position(BACK+TOP) down(25) cuboid([70-20, 10, 120], anchor=BACK+TOP);
+    }
+  }
+}
 
 module holder()
 {
@@ -51,4 +63,8 @@ module holder()
     }
 }
 
-holder();
+// left_half(200)
+// back(14)
+// up(7.5)
+top();
+// holder();
